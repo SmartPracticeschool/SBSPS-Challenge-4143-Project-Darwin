@@ -1,0 +1,103 @@
+------------------------------------------------------
+# this is for the list of jobs and all their parameters
+List of Jobs = {[
+    job1: {
+        id: 1,
+        role: job1,
+        languages: []
+        expected_skills: []
+        parameter1: ##,
+        parameter2: ##,
+        parameter3: ##,
+        ans_key_q1: default/expected,
+        ans_key_q2: default/expected,
+        ...
+    },
+    job2: {
+        id: 2,
+        role: job2,
+        languages: []
+        expected_skills: []
+        parameter1: ##,
+        parameter2: ##,
+        parameter3: ##,
+        ans_key_q1: default/expected,
+        ans_key_q2: default/expected,
+        ...
+    }
+    ...
+]}
+-------------------------------------------------------
+# this is what the bot returns on basis of interview
+CandidateInterview = {
+    id: 1,
+    name: ABC,
+    email: ABC@domain.com,
+    github: abcGit,
+    twitter: @abcTweet,
+    yoe: 5,
+    skills_expert_at: keywords of skills,
+    mbperson: introlucious,
+    describe_urself: keywords of description,
+    job_why: keywords company love,
+    what_know_about_role: kill code sleep,
+    passionate_abt: create build win,
+    any_salary_expect: 10000,
+    when_start: date,
+}
+------------------------------------------------------
+# this is when we score the candidate and get matchPercentage
+CandidateScores = {
+    gitLanguages: {
+        language%: {
+            Javascript: $$,
+            Python: $$,
+            Shell: $$
+        }
+    }
+    socialMediaPersonality: introlucious,
+    yoe: $,
+    xpSkills: $$,
+    mbperson-similarity-score: $,
+    describe_urself-keyword-similarity: $,
+    job_why-keyword-similarity: $,
+    what_know_about_role-key-sim: $,
+    passionate_abt-key-sim: $,
+    any_salary_expect-key-sim: $,
+    when_start_date-sim: $
+}
+
+-------------------------------------------------------
+# after getting matchPercentage we store all candidates per job ranked (subject to rewrite on parameter change)
+List of Candidates = {
+    List of Jobs = {[
+        job1: {
+            id: 1,
+            candidates: {[
+                candidate1: {
+                    candidateId: 1,
+                    matchPercentage: %%
+                },
+                candidate2: {
+                    candidateId: 2,
+                    matchPercentage: %%
+                }
+                ...
+            ]}
+        },
+        job2: {
+            id: 2,
+            candidates: {[
+                candidate1: {
+                    candidateId: 1,
+                    matchPercentage: %%,
+                },
+                candidate2: {
+                    candidateId: 2,
+                    matchPercentage: %%,
+                }
+            ]}
+        }
+    ]}
+}
+-------------------------------------------------------

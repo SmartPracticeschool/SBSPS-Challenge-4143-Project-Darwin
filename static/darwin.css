@@ -1,0 +1,15 @@
+.bubble {
+    color: black;
+}
+
+.bot {
+    background-color: teal;
+}
+
+.user {
+    background-color: violet;
+}
+
+.bubble-text {
+    max-width: 400px;
+}
