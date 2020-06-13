@@ -1,15 +1,12 @@
+import sys
+sys.path.insert(1,'/Users/sidthakur08/Github/SBSPS-Challenge-4143-Project-Darwin')
 from pandas import DataFrame
 import tweepy
-import json
-import csv
 import time
+from dotenv import load_dotenv
+from k3y5 import API_KEY,API_SECRET_KEY,ACCESS_TOKEN,ACCESS_TOKEN_SECRET
 
 # loading keys from json file
-keys = json.loads(open('key.json').read())
-API_KEY = keys['api_key']
-API_SECRET_KEY = keys['api_secret_key']
-ACCESS_TOKEN = keys['access_token']
-ACCESS_TOKEN_SECRET = keys['access_token_secret']
 MAX_TWEET = 100
 
 # connecting to twitter api
