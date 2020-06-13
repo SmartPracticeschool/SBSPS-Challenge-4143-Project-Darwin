@@ -1,5 +1,6 @@
+import os
 import sys
-sys.path.insert(1,'/Users/sidthakur08/Github/SBSPS-Challenge-4143-Project-Darwin')
+sys.path.insert(1, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..\\..\\'))
 from pandas import DataFrame
 import tweepy
 import time

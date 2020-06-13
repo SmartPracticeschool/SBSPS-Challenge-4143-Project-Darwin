@@ -1,60 +1,64 @@
+import os
+import sys
+sys.path.insert(1, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..\\..\\'))
+from k3y5 import DEV_GIT_KEY
 import requests
 import json
-
+import itertools  
+import collections 
+import numpy as np
 
 def apiToJson(url):
-  payload = ''
-  headers = {
-    'Authorization': 'Bearer c0f6bcd5ba44d9cb6715d9bab9bc6e19072d5c89',
-    'Content-Type': 'application/json'
-  }
-  response = requests.request("GET", url, headers=headers, data = payload)
-  return json.loads(response.text)
+    payload = ''
+    headers = {
+        'Authorization': 'Bearer ' + DEV_GIT_KEY,
+        'Content-Type': 'application/json'
+    }
+    response = requests.request("GET", url, headers=headers, data = payload)
+    return json.loads(response.text)
 
 def getUserGitData(user):
-  repoList = apiToJson("https://api.github.com/users/" + user + "/repos")
+    try:
+        repoList = apiToJson("https://api.github.com/users/" + user + "/repos")
+        repoLangData = []
+        repoContriData = []
+        for i in range (len(repoList)):
+            repoLangData.append (apiToJson(repoList[i]['languages_url']))
+            repoContriData.append (apiToJson(repoList[i]["contributors_url"]))
+    except:
+        print("ERR Fetching GitHub API Data")
+        return None
 
-  repoLangData = []
-  repoContriData = []
-  for i in range (len(repoList)):
-    repoLangData.append (apiToJson(repoList[i]['languages_url']))
-    repoContriData.append (apiToJson(repoList[i]["contributors_url"]))
-
-  sumCommitPercent = 0
-  allLangList = []
-  for i in range(len(repoList)):
-    
-    print(repoList[i]['name'])
-
-    languageDict = repoLangData[i]
-    langList = list(languageDict.keys())
-    for lang in langList:
-      allLangList.append(lang)
-
-    this_contri = repoContriData[i]
-    allCommits = 0 
-    this_userCommits=0
-    for j in range(len(this_contri)):
-      allCommits = allCommits + this_contri[j]["contributions"]
-      if this_contri[j]["login"] == user:
-        this_userCommits = this_contri[j]["contributions"]
+    sumThisUserCommits = 0
+    sumCommitPercent = 0
+    allLangList = []
+    for i in range(len(repoList)):
         
-    commit_percent = (this_userCommits / allCommits) * 100
-    sumCommitPercent = sumCommitPercent + commit_percent
-  listOfLang = list(set(allLangList))
+        languageDict = repoLangData[i]
+        langList = list(languageDict.keys())
+        for lang in langList:
+            allLangList.append(lang)
+        allLangList = list(set(allLangList))
 
-  for i in range (len(repoList)):
-    print(repoList[i]['name'])
-    langValDict = {'lang': [], 'loc': []}
-    for l in listOfLang:
-      langValDict['lang'].append(l)
-      try:
-        langValDict['loc'].append(repoLangData[i][l])
-      except:
-        langValDict['loc'].append(0)
-    print(langValDict)
+        this_contri = repoContriData[i]
+        allCommits = 0 
+        this_userCommits=0
+        for j in range(len(this_contri)):
+            allCommits = allCommits + this_contri[j]["contributions"]
+            if this_contri[j]["login"] == user:
+                this_userCommits = this_contri[j]["contributions"]
+                sumThisUserCommits = sumThisUserCommits + this_contri[j]["contributions"] 
+            
+        commit_percent = (this_userCommits / allCommits) * 100
+        sumCommitPercent = sumCommitPercent + commit_percent
 
-  print(sumCommitPercent / len(repoList))
-  
+    gitStats = {
+        # 'score': sumThisUserCommits/len(repoList),
+        'repoCount': len(repoList),
+        'avgContri': (sumCommitPercent / len(repoList)),
+        'langList': allLangList
+    }
+    
+    return gitStats
 
-getUserGitData('mihirs16')
+print(getUserGitData('yashasvimisra2798'))

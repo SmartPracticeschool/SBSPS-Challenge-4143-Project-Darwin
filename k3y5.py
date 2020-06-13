@@ -10,9 +10,11 @@ try:
     API_SECRET_KEY = str(os.environ.get('API_SECRET_KEY'))
     ACCESS_TOKEN = str(os.environ.get('ACCESS_TOKEN'))
     ACCESS_TOKEN_SECRET = str(os.environ.get('ACCESS_TOKEN_SECRET'))
+    DEV_GIT_KEY = str(os.environ.get('DEV_GIT_KEY'))
 except:
     ADMIN_KEY = str(os.environ.get("ADMIN_KEY"))
     API_KEY = str(os.environ.get('API_KEY'))
     API_SECRET_KEY = str(os.environ.get('API_SECRET_KEY'))
     ACCESS_TOKEN = str(os.environ.get('ACCESS_TOKEN'))
     ACCESS_TOKEN_SECRET = str(os.environ.get('ACCESS_TOKEN_SECRET'))
+    DEV_GIT_KEY = str(os.environ.get('DEV_GIT_KEY'))

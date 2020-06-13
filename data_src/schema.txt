@@ -31,6 +31,7 @@ List of Jobs = {[
 # this is what the bot returns on basis of interview
 CandidateInterview = {
     id: 1,
+    jobId: 1,
     name: ABC,
     email: ABC@domain.com,
     github: abcGit,
