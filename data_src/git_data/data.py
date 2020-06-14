@@ -17,48 +17,59 @@ def apiToJson(url):
     response = requests.request("GET", url, headers=headers, data = payload)
     return json.loads(response.text)
 
-def getUserGitData(user):
-    try:
-        repoList = apiToJson("https://api.github.com/users/" + user + "/repos")
-        repoLangData = []
-        repoContriData = []
-        for i in range (len(repoList)):
-            repoLangData.append (apiToJson(repoList[i]['languages_url']))
-            repoContriData.append (apiToJson(repoList[i]["contributors_url"]))
-    except:
-        print("ERR Fetching GitHub API Data")
-        return None
-
-    sumThisUserCommits = 0
-    sumCommitPercent = 0
-    allLangList = []
-    for i in range(len(repoList)):
+# def getUserGitData(user):
+#     try:
+#         repoList = apiToJson("https://api.github.com/users/" + user + "/repos")
+#         repoLangData = []
+#         repoContriData = []
+#         for i in range (len(repoList)):
+#             repoLangData.append (apiToJson(repoList[i]['languages_url']))
+#             repoContriData.append (apiToJson(repoList[i]["contributors_url"]))
+#     except:
+#         print("ERR Fetching GitHub API Data")
+#         return None
+#     print(repoList[0])
+    # sumThisUserCommits = 0
+    # sumCommitPercent = 0
+    # allLangList = []
+    # for i in range(len(repoList)):
         
-        languageDict = repoLangData[i]
-        langList = list(languageDict.keys())
-        for lang in langList:
-            allLangList.append(lang)
-        allLangList = list(set(allLangList))
+    #     languageDict = repoLangData[i]
+    #     langList = list(languageDict.keys())
+    #     for lang in langList:
+    #         allLangList.append(lang)
+    #     allLangList = list(set(allLangList))
 
-        this_contri = repoContriData[i]
-        allCommits = 0 
-        this_userCommits=0
-        for j in range(len(this_contri)):
-            allCommits = allCommits + this_contri[j]["contributions"]
-            if this_contri[j]["login"] == user:
-                this_userCommits = this_contri[j]["contributions"]
-                sumThisUserCommits = sumThisUserCommits + this_contri[j]["contributions"] 
+
+
+        # this_contri = repoContriData[i]
+        # allCommits = 0 
+        # this_userCommits=0
+        # for j in range(len(this_contri)):
+        #     allCommits = allCommits + this_contri[j]["contributions"]
+        #     if this_contri[j]["login"] == user:
+        #         this_userCommits = this_contri[j]["contributions"]
+        #         sumThisUserCommits = sumThisUserCommits + this_contri[j]["contributions"] 
             
-        commit_percent = (this_userCommits / allCommits) * 100
-        sumCommitPercent = sumCommitPercent + commit_percent
+        # commit_percent = (this_userCommits / allCommits) * 100
+        # sumCommitPercent = sumCommitPercent + commit_percent
 
-    gitStats = {
-        # 'score': sumThisUserCommits/len(repoList),
-        'repoCount': len(repoList),
-        'avgContri': (sumCommitPercent / len(repoList)),
-        'langList': allLangList
-    }
+    # gitStats = {
+    #     # 'score': sumThisUserCommits/len(repoList),
+    #     'repoCount': len(repoList),
+    #     'avgContri': (sumCommitPercent / len(repoList)),
+    #     'langList': allLangList
+    # }
     
-    return gitStats
+    # return gitStats
 
-print(getUserGitData('yashasvimisra2798'))
+def getUserGitData(user):
+    thisUser = apiToJson("https://api.github.com/users/"+user+"/events")
+
+    activityTimeline = []
+
+    for event in thisUser:
+        activityTimeline.append(event["created_at"])
+
+    return activityTimeline
+print(getUserGitData('mihirs16'))
