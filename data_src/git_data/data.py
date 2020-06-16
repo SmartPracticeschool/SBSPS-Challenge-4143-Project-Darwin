@@ -15,6 +15,8 @@ def apiToJson(url):
         'Content-Type': 'application/json'
     }
     response = requests.request("GET", url, headers=headers, data = payload)
+    v = json.loads(response.text)
+    #print(v)
     return json.loads(response.text)
 
 # def getUserGitData(user):
@@ -64,12 +66,23 @@ def apiToJson(url):
     # return gitStats
 
 def getUserGitData(user):
-    thisUser = apiToJson("https://api.github.com/users/"+user+"/events")
-
-    activityTimeline = []
-
-    for event in thisUser:
-        activityTimeline.append(event["created_at"])
-
-    return activityTimeline
-print(getUserGitData('mihirs16'))
+    try:
+        thisUser = apiToJson("https://api.github.com/users/"+user+"/events")
+        if not (len(thisUser)>0):
+            print("Invalid Username")
+            return None
+    except:
+        print("ERR Fetching GitHub API Data")
+        return None
+    try:
+        #print(thisUser)
+        activityTimeline = []
+        for event in thisUser:
+            activityTimeline.append(event["created_at"])
+            
+        return activityTimeline
+    
+    except:
+        print("Invalid Username")
+        return None
+print(getUserGitData('mihirs16_'))
