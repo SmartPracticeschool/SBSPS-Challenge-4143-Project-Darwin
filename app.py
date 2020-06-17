@@ -1,9 +1,12 @@
 # -- all imports ---------
-from k3y5 import ADMIN_KEY
+# from k3y5 import ADMIN_KEY
+import resume_vault
+import database
+import json
 # ------------------------
 
 # -- flask init -----------------------------------------------------------
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 app = Flask(__name__, static_folder="static/", template_folder='templates/')
 #--------------------------------------------------------------------------
 
@@ -31,7 +34,14 @@ def adminDashboard(key):
 # ----------------------------
 
 # --- Public API Services -----------
-# @app.route('/newUser', methods=['POST'])
+@app.route('/newUser', methods=['POST'])
+def newUser():
+    req = json.loads(request.data)
+    candidate_id = database.add_candidate(req)
+    if resume_vault.upload_item(str(candidate_id), 'data_src\\resume\\mihir_resume.pdf'):
+        return "Uploaded New User and Resume"
+    else:
+        return "That's sad man.."
 # -----------------------------------
 
 # --- Private API Services ----------
