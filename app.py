@@ -38,10 +38,12 @@ def adminDashboard(key):
 def newUser():
     req = json.loads(request.data)
     candidate_id = database.add_candidate(req)
-    if resume_vault.upload_item(str(candidate_id), 'data_src\\resume\\mihir_resume.pdf'):
-        return "Uploaded New User and Resume"
+    if candidate_id:
+        if resume_vault.upload_item(str(candidate_id), 'data_src\\resume\\mihir_resume.pdf'):
+            return "Uploaded New User and Resume"
+        else:
     else:
-        return "That's sad man.."
+        return "Error Uploading New User"
 # -----------------------------------
 
 # --- Private API Services ----------
@@ -53,6 +55,7 @@ def newUser():
 
 # @app.route('/getDashboard')
 # -----------------------------------
+
 
 if __name__ == '__main__':
     app.run()
