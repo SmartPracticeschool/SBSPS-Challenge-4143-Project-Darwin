@@ -129,7 +129,7 @@ def get_all_tweets_dic(username):
     return json.dumps(tweet_dic,indent=2,default=str)
 
 # pushes the dictionary created into the personality insights to get the results
-def get_persona(dic):
+def get_insight(dic):
     profile = PI.profile(
         dic,
         'application/json',
@@ -138,8 +138,164 @@ def get_persona(dic):
 
     return json.dumps(profile, indent=2)
 
-username = '@sidtweetsnow'
-tw_dic = get_all_tweets_dic(username)
-persona = get_persona(tw_dic)
+# getting a dictionary of PERSONALITY score for each value
+'''
+- personality
+    - big5_openness
+        - adventurousness
+        - artistic interests
+        - emotionality
+        - imagination
+        - intellect
+        - liberalism
+    - big5_conscientiousness
+        - achievement striving
+        - cautiousness
+        - dutifulness
+        - orderliness
+        - self-discipline
+        - self-efficacy --> producing results?
+    - big5_extraversion
+        - activity level
+        - assertiveness
+        - cheerfulness
+        - excitement seeking
+        - outgoing
+        - gregariousness --> sociable
+    - big5_agreeableness
+        - altruism --> disinterested and selfless concern for the well-being of others
+        - cooperation
+        - modesty
+        - uncompromising
+        - sympathy
+        - trust
+    - big5_neuroticism (emotional range)
+        - fiery
+        - prone to worry
+        - melancholy
+        - immoderation
+        - self consciousness
+        - susceptible to stress
+'''
+def get_personality(insight):
+    personality = dict()
+    for i in range(len(insight['personality'])):
+        if insight['personality'][i]['trait_id'] == 'big5_openness':
+            personality[f"personality_{insight['personality'][i]['trait_id'][5:]}_score"] = insight['personality'][i]['raw_score']
+            for o in range(len(insight['personality'][i]['children'])):
+                personality[f"personality_{insight['personality'][i]['children'][o]['trait_id'][6:]}_score"] = insight['personality'][i]['children'][o]['raw_score']
+        if insight['personality'][i]['trait_id'] == 'big5_conscientiousness':
+            personality[f"personality_{insight['personality'][i]['trait_id'][5:]}_score"] = insight['personality'][i]['raw_score']
+            for c in range(len(insight['personality'][i]['children'])):
+                personality[f"personality_{insight['personality'][i]['children'][c]['trait_id'][6:]}_score"] = insight['personality'][i]['children'][c]['raw_score']
+        if insight['personality'][i]['trait_id'] == 'big5_extraversion':
+            personality[f"personality_{insight['personality'][i]['trait_id'][5:]}_score"] = insight['personality'][i]['raw_score']
+            for c in range(len(insight['personality'][i]['children'])):
+                personality[f"personality_{insight['personality'][i]['children'][c]['trait_id'][6:]}_score"] = insight['personality'][i]['children'][c]['raw_score']
+        if insight['personality'][i]['trait_id'] == 'big5_agreeableness':
+            personality[f"personality_{insight['personality'][i]['trait_id'][5:]}_score"] = insight['personality'][i]['raw_score']
+            for c in range(len(insight['personality'][i]['children'])):
+                personality[f"personality_{insight['personality'][i]['children'][c]['trait_id'][6:]}_score"] = insight['personality'][i]['children'][c]['raw_score']
+        if insight['personality'][i]['trait_id'] == 'big5_neuroticism':
+            personality[f"personality_{insight['personality'][i]['trait_id'][5:]}_score"] = insight['personality'][i]['raw_score']
+            for c in range(len(insight['personality'][i]['children'])):
+                personality[f"personality_{insight['personality'][i]['children'][c]['trait_id'][6:]}_score"] = insight['personality'][i]['children'][c]['raw_score']
 
-print(persona)
+    return personality
+
+# getting NEED scores for each value
+'''
+- needs
+    - challenge
+    - closeness
+    - curiosity
+    - excitement
+    - harmony
+    - liberty
+    - love
+    - practicality
+    - self expression
+    - stability
+    - structure
+'''
+def get_need(insight):
+    need = dict()
+    for i in range(len(insight['needs'])):
+        need[f"need_{insight['needs'][i]['trait_id'][5:]}_score"] = insight['needs'][i]['raw_score']
+
+    return need
+
+# getting VALUES scores for each value
+'''
+- values
+    - conservation
+    - openness to change
+    - hedonism --> pursuit of pleasure
+    - self enhancement
+    - self transcendence --> experience
+'''
+def get_value(insight):
+    value = dict()
+    for i in range(len(insight['values'])):
+        value[f"value_{insight['values'][i]['trait_id'][6:]}_score"] = insight['values'][i]['raw_score']
+
+    return value
+
+# calculating distance between two profiles
+def difference(dic1,dic2):
+    res = dict()
+    for i,j in zip(dic1.items(),dic2.items()):
+        res[i[0]] = i[1] - j[1]
+
+    return res
+
+# combining all personality, need and value into a score dictionary
+def combine(personality,need,value):
+    score = {
+        'personality':personality,
+        'need':need,
+        'value':value
+    }
+    
+    return score
+
+# returning a score of a single username
+def get_score(insight):
+    p = get_personality(insight)
+    n = get_need(insight)
+    v = get_value(insight)
+
+    score = combine(p,n,v)
+
+    return score
+
+def get_dist(insight1,insight2):
+    # calling all functions to get personality, need and value for both profiles
+    p1 = get_personality(insight1)
+    n1 = get_need(insight1)
+    v1 = get_value(insight1)
+    p2 = get_personality(insight2)
+    n2 = get_need(insight2)
+    v2 = get_value(insight2)
+
+    # calling function difference to get the difference between 
+    # all scores of personality, need and value
+    p_diff = difference(p1,p2)
+    n_diff = difference(n1,n2)
+    v_diff = difference(v1,v2)
+
+    # profile distance combined into one score
+    dist = combine(p_diff,n_diff,v_diff)
+
+    return dist
+
+
+username = '@sidtweetsnow'
+username2 = '@cached_cadet'
+tw_dic1 = get_all_tweets_dic(username)
+tw_dic2 = get_all_tweets_dic(username2)
+insight1 = get_insight(tw_dic1)
+insight2 = get_insight(tw_dic2)
+'''print(insight1)
+print(insight2)'''
+print(get_dist(insight1,insight2))
