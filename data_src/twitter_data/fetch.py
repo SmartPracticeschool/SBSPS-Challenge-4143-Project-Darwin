@@ -82,7 +82,7 @@ dictionary = {
     'contentItems':[
         {
             'content': tweets text,
-            'contenttype': 'text/plain',
+            'contenttype': 'application/json',
             'id': tweets id,
             'created':tweets creation date,
             'language':'en'
@@ -119,7 +119,7 @@ def get_all_tweets_dic(username):
     for tweet in all_tweets:
         td = {
             'content':tweet.text,
-            'contenttype':'text/plain',
+            'contenttype':'application/json',
             'id':tweet.id_str,
             'created':tweet.created_at,
             'language':'en'
