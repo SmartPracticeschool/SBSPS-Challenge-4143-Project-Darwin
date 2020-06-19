@@ -271,24 +271,44 @@ def get_score(insight):
 
 def get_dist(insight1,insight2):
     # calling all functions to get personality, need and value for both profiles
-    p1 = get_personality(insight1)
-    n1 = get_need(insight1)
-    v1 = get_value(insight1)
-    p2 = get_personality(insight2)
-    n2 = get_need(insight2)
-    v2 = get_value(insight2)
+    try:
+        p1 = get_personality(insight1)
+        n1 = get_need(insight1)
+        v1 = get_value(insight1)
+        p2 = get_personality(insight2)
+        n2 = get_need(insight2)
+        v2 = get_value(insight2)
 
-    # calling function difference to get the difference between 
-    # all scores of personality, need and value
-    p_diff = difference(p1,p2)
-    n_diff = difference(n1,n2)
-    v_diff = difference(v1,v2)
+        # calling function difference to get the difference between 
+        # all scores of personality, need and value
+        p_diff = difference(p1,p2)
+        n_diff = difference(n1,n2)
+        v_diff = difference(v1,v2)
 
-    # profile distance combined into one score
-    dist = combine(p_diff,n_diff,v_diff)
+        # profile distance combined into one score
+        dist = combine(p_diff,n_diff,v_diff)
+        return dist
+    
+    except:
+        insight1 = json.loads(insight1)
+        insight2 = json.loads(insight2)
 
-    return dist
+        p1 = get_personality(insight1)
+        n1 = get_need(insight1)
+        v1 = get_value(insight1)
+        p2 = get_personality(insight2)
+        n2 = get_need(insight2)
+        v2 = get_value(insight2)
 
+        # calling function difference to get the difference between 
+        # all scores of personality, need and value
+        p_diff = difference(p1,p2)
+        n_diff = difference(n1,n2)
+        v_diff = difference(v1,v2)
+
+        # profile distance combined into one score
+        dist = combine(p_diff,n_diff,v_diff)
+        return dist
 
 username = '@sidtweetsnow'
 username2 = '@cached_cadet'
