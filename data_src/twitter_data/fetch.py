@@ -310,12 +310,40 @@ def get_dist(insight1,insight2):
         dist = combine(p_diff,n_diff,v_diff)
         return dist
 
-username = '@sidtweetsnow'
-username2 = '@cached_cadet'
-tw_dic1 = get_all_tweets_dic(username)
-tw_dic2 = get_all_tweets_dic(username2)
-insight1 = get_insight(tw_dic1)
-insight2 = get_insight(tw_dic2)
-'''print(insight1)
-print(insight2)'''
-print(get_dist(insight1,insight2))
+def twtScore(username):
+    tw_dic1 = get_all_tweets_dic(username)
+    # tw_dic2 = get_all_tweets_dic(username2)
+    insight1 = get_insight(tw_dic1)
+    # insight2 = get_insight(tw_dic2)
+    '''print(insight1)
+    print(insight2)'''
+    # diff = get_dist(insight1,insight2)
+    insight1 = json.loads(insight1)
+    score = {
+        'big5': {
+            'openness': insight1['personality'][0]['raw_score'],
+            'conscientiousness': insight1['personality'][1]['raw_score'],
+            'extraversion': insight1['personality'][2]['raw_score'],
+            'agreeableness': insight1['personality'][3]['raw_score'],
+            'neuroticism': insight1['personality'][4]['raw_score']
+        },
+        'values': {
+            'conservation':  insight1['values'][0]['raw_score'],
+            'open_to_change':  insight1['values'][1]['raw_score'],
+            'self_enhancement': insight1['values'][3]['raw_score'],
+            'self_transcendence':  insight1['values'][4]['raw_score']
+        }
+    }
+    big5_score = (score['big5']['openness'] + score['big5']['conscientiousness'] + score['big5']['extraversion'] + score['big5']['agreeableness'] + score['big5']['neuroticism'])/5
+    value_score = (score['values']['conservation'] + score['values']['open_to_change'] + score['values']['self_enhancement'] + score['values']['self_transcendence'])/4 
+    return big5_score, value_score
+'''
+raw
+- openness
+- extraversion
+- agreeableness
+- conscientiousness
+- neuroticism
+'''
+# print(twtScore('@sidtweetsnow', '@cached_cadet'))
+# print(get_insight(get_all_tweets_dic('@cached_cadet')))

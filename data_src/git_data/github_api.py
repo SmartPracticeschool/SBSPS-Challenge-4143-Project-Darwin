@@ -91,10 +91,10 @@ def gitDistance(user1, user2):
 
     # doc_scores = bm25.get_scores(query)
     # print(doc_scores)
-
-    return {
+    score = {
         "avgContri": abs(stat1['avgContri'] - stat2['avgContri']),
         "recentContri": abs(stat1['recentContri'] - stat2['recentContri'])
     }
+    return (score['avgContri']/10 + score['recentContri']/100)/2
 
-print(gitDistance('mihirs16', 'hritikbhandari'))
+# print(gitDistance('mihirs16', 'hritikbhandari'))
