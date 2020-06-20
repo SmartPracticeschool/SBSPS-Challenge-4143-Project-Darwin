@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="244.973" height="70" viewBox="0 0 244.973 70">
+  <g id="Logo" transform="translate(2.126 0)">
+    <g id="Group_28" data-name="Group 28" transform="translate(0 15.026)">
+      <g id="Group_26" data-name="Group 26">
+        <path id="Path_11" data-name="Path 11" d="M260.243-302.8h-45.06s-5.943,41.827,45.06,41.827" transform="translate(-214.971 302.8)" fill="#fff" stroke="#91a7ff" stroke-linecap="square" stroke-linejoin="round" stroke-width="4"/>
+        <path id="Path_12" data-name="Path 12" d="M349.2-307.6v41.827" transform="translate(-303.927 307.6)" fill="#dbe4ff" stroke="#91a7ff" stroke-linecap="square" stroke-width="4"/>
+        <path id="Path_13" data-name="Path 13" d="M215.65-302.75s12.954,24.217,44.082,18.529" transform="translate(-214.51 304.553)" fill="#dbe4ff" stroke="#91a7ff" stroke-linecap="square" stroke-width="4"/>
+      </g>
+      <path id="Path_14" data-name="Path 14" d="M337.073-201.483H291.96s7.246,12.683,19.151,17.924,25.962,2.591,25.962,2.591Z" transform="translate(-291.8 201.859)" fill="#bac8ff"/>
+      <g id="Group_27" data-name="Group 27" transform="translate(0 0.377)">
+        <path id="Path_11-2" data-name="Path 11" d="M260.243-302.8h-45.06s-5.943,41.827,45.06,41.827" transform="translate(-214.971 302.8)" fill="none" stroke="#1971c2" stroke-linecap="square" stroke-linejoin="round" stroke-width="4"/>
+        <path id="Path_12-2" data-name="Path 12" d="M349.2-307.6v41.827" transform="translate(-303.927 307.6)" fill="none" stroke="#1971c2" stroke-linecap="square" stroke-width="4"/>
+        <path id="Path_13-2" data-name="Path 13" d="M215.65-302.75s13.124,25.978,44.661,19.876" transform="translate(-215.089 303.143)" fill="none" stroke="#1971c2" stroke-linecap="square" stroke-width="4"/>
+      </g>
+    </g>
+    <text id="Darwin" transform="translate(62.847 56)" fill="#1971c2" font-size="59" font-family="SFProDisplay-Medium, SF Pro Display" font-weight="500"><tspan x="0" y="0">Darwin</tspan></text>
+  </g>
+</svg>
