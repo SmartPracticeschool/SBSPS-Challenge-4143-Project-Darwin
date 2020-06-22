@@ -1,33 +1,3 @@
-@font-face {
-    font-family: SFProDisplay;
-    src: url("Assets\\fonts\\SFProDisplay-Regular.ttf") format('truetype');
-    
-}
-
-* {
-    overflow-x: hidden;
-    font-family: SFProDisplay;
-}  
-
-body {
-    background-attachment: fixed; 
-    background-position: center;
-    background-image: url(Assets/Grid_BG.svg); 
-    width: 100%; 
-    height: 100%;
-}
-
-#mainNav {
-    -webkit-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.16);
-    -moz-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.16);
-    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.16);
-}
-
-#brandTitle {
-    margin-top: 10px;
-    font-size: 45px;
-}
-
 #login_panel {
     padding-top: 5%;
     padding-right: 5%;
@@ -68,23 +38,25 @@ input {
     width: 250px;
     height: 70px;
     border-radius: 4px;
-    transition: all 0.2s;
-    transform: translateY(0px);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #51cf66;
     color:#ffffff;font-weight: bold;font-family: SFProDisplay;font-size: 26px;
 }
 
 .login-btn:hover {
-    transition: all 0.2s;
+    transition: all 0.1s;
     transform: translateY(-3px);
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
 }
 
-.login-btn:focus {
-    transition: all 0.2s;
+.login-btn:active {
+    transition: all 0.1s;
     transform: translateY(3px);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    outline: none;
+}
+
+.login-btn:focus {
     outline: none;
 }
 

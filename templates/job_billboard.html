@@ -11,12 +11,12 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>    
     <!-- Title -->
-    <title>Admin - Login</title>
+    <title>Admin - Jobs</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="page.css">
-    <link rel="stylesheet" href="admin_login.css">
+    <link rel="stylesheet" href="billboard.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -31,29 +31,91 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="homepage.html"><span style="color: #1971c2; font-size: x-large;">Not an admin?</span></a>
+                        <a class="nav-link js-scroll-trigger" href="job_billboard.html"><span style="color: #1971c2; font-size: x-large;">All Jobs</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="admin_login.html"><span style="color: #1971c2; font-size: x-large;">Log Out</span></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
+    <!-- Career Opportunities -->
+    <div style="display: flex; justify-content: center;">
+        <div id="career-section">
+            <div class="row mt-5">
+                <div class="col-8">
+                    <h1 id="career-head">Career Opportunities</h1>
+                </div>
+                <div class="col-4">
+                    <form action="">
+                        <div class="submit_div">
+                            <button type="submit" class="login-btn">POST NEW JOB &nbsp;+ </button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div class="row">
+                    
+                    <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
+                        <div class="defaultdet">
+                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
+                            <div class="row ml-1 joblocation">Oslo | Paris</div>
+                        </div>
+                        <div class="altdet">
+                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
+                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
+                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
+                        </div>    
+                        <div class="applybutton">APPLY <img src="Assets/arrow.svg" width="25px" height="25px"></div>
+                    </div>
 
-    <!-- Login Panel -->
-    <div class="container" id="login_panel">
-        <div class="form-holder">
-            <form action="">
-                <div class="input_div">
-                    <input placeholder="username" style="width: 100%; background: none;" required>
+                    <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
+                        <div class="defaultdet">
+                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
+                            <div class="row ml-1 joblocation">Oslo | Paris</div>
+                        </div>
+                        <div class="altdet">
+                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
+                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
+                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
+                        </div>    
+                        <div class="applybutton">APPLY <img src="Assets/arrow.svg" width="25px" height="25px"></div>
+                    </div>
+
+                    <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
+                        <div class="defaultdet">
+                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
+                            <div class="row ml-1 joblocation">Oslo | Paris</div>
+                        </div>
+                        <div class="altdet">
+                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
+                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
+                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
+                        </div>    
+                        <div class="applybutton">APPLY <img src="Assets/arrow.svg" width="25px" height="25px"></div>
+                    </div>
                 </div>
-                <div class="input_div">
-                    <input type="password" placeholder="password" style="width: 100%; background: none;" required>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div class="row">
+                    <div class="col m-3 jobcard"></div>
+                    <div class="col m-3 jobcard"></div>                
+                    <div class="col m-3 jobcard"></div>
                 </div>
-                <div class="submit_div">
-                    <button type="submit" class="login-btn">LOG IN</button>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div class="row">
+                    <div class="col m-3 jobcard"></div>
+                    <div class="col m-3 jobcard"></div>                
+                    <div class="col m-3 jobcard"></div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
+
 
     <!-- Footer Section -->
     <div class="fluid-container footsection" id="footer">
