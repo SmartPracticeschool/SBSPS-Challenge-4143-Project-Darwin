@@ -1,63 +1,77 @@
-# -- all imports ---------
-# from k3y5 import ADMIN_KEY
-import resume_vault
-import database
-import json
-# ------------------------
+import flask
+import flask_login
+from k3y5 import ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_KEY
 
-# -- flask init -----------------------------------------------------------
-from flask import Flask, render_template, request
-app = Flask(__name__, static_folder="static/", template_folder='templates/')
-#--------------------------------------------------------------------------
+app = flask.Flask(__name__)
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
 
-# --- Public Routes ----------
+# ---- flask login setup ----------------------------------
+app.secret_key = ADMIN_KEY
+users = {ADMIN_USERNAME: {'password': ADMIN_PASSWORD}}
+
+class User(flask_login.UserMixin):
+    pass
+
+@login_manager.user_loader
+def user_loader(email):
+    if email not in users:
+        return
+    user = User()
+    user.id = email
+    return user
+
+@login_manager.request_loader
+def request_loader(request):
+    email = request.form.get('email')
+    if email not in users:
+        return
+    user = User()
+    user.id = email
+    user.is_authenticated = request.form['password'] == users[email]['password']
+    return user
+# -----------------------------------------------------
+
+# ---- public services --------------------------------
 @app.route('/', methods=['GET'])
-def homePage():
-    return 'Hello World!'
+def homepage():
+    return flask.render_template('homepage.html')
+# -----------------------------------------------------
 
-@app.route('/darwin/<jobID>', methods=['GET'])
-def darwin(jobID):
-    return render_template('darwin.html', jobName=jobID)
-# ----------------------------
+# ---- admin services ---------------------------------
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if flask.request.method == 'GET':
+        return flask.render_template('admin_login.html')
 
-# --- Admin Routes -----------
-@app.route('/admin', methods=['GET'])
-def adminLogin():
-    return 'You will enter key here'
+    email = flask.request.form['email']
+    if email in list(users.keys()):
+        if flask.request.form['password'] == users[email]['password']:
+            user = User()
+            user.id = email
+            flask_login.login_user(user)
+            return flask.redirect(flask.url_for('billboard'))
+    return flask.redirect(flask.url_for('admin'))
 
-@app.route('/admin/<key>', methods=['GET'])
-def adminDashboard(key):
-    if key == ADMIN_KEY:
-        return 'Logged in with ' + key
-    else:
-        return 'Log in Failed with ' + key
-# ----------------------------
+@app.route('/billboard')
+@flask_login.login_required
+def billboard():
+    return flask.render_template('job_billboard.html')
 
-# --- Public API Services -----------
-@app.route('/newUser', methods=['POST'])
-def newUser():
-    req = json.loads(request.data)
-    candidate_id = database.add_candidate(req)
-    if candidate_id:
-        if resume_vault.upload_item(str(candidate_id), 'data_src\\resume\\mihir_resume.pdf'):
-            return "Uploaded New User and Resume"
-        else:
-    else:
-        return "Error Uploading New User"
+# @app.route('/applicants/<jobid>')
+# @flask_login.login_required
+# def protected():
+#     return flask.render_template('job_billboard.html', jobid=jobid)
 
+@app.route('/logout')
+def logout():
+    flask_login.logout_user()
+    return flask.redirect(flask.url_for('admin'))
 
-# -----------------------------------
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return flask.redirect(flask.url_for('admin'))
+# -------------------------------------------------------
 
-# --- Private API Services ----------
-# @app.route('/newJob/<key>', methods=['POST'])
-
-# @app.route('/getAllJobs/<key>', methods=['GET'])
-
-# @app.route('/getCandidatesForJobId/<key>', methods=['GET'])
-
-# @app.route('/getDashboard')
-# -----------------------------------
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
