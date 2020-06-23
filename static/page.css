@@ -27,3 +27,11 @@ body {
     margin-top: 10px;
     font-size: 45px;
 }
+
+div.footsection img {
+    opacity: 0.5;
+}
+
+div.footsection img:hover {
+    opacity: 1.0;
+}

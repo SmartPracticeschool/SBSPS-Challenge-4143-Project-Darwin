@@ -6,6 +6,8 @@ try:
     dotenv_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path)
     ADMIN_KEY = str(os.environ.get("ADMIN_KEY"))
+    ADMIN_USERNAME = str(os.environ.get("ADMIN_USERNAME"))
+    ADMIN_PASSWORD = str(os.environ.get("ADMIN_PASSWORD"))
     TWITTER_API_KEY = str(os.environ.get('TWITTER_API_KEY'))
     TWITTER_API_SECRET_KEY = str(os.environ.get('TWITTER_API_SECRET_KEY'))
     TWITTER_ACCESS_TOKEN = str(os.environ.get('TWITTER_ACCESS_TOKEN'))
@@ -24,6 +26,8 @@ try:
     COS_SERVICE_CRN = str(os.environ.get('COS_SERVICE_CRN'))
 except:
     ADMIN_KEY = str(os.environ.get("ADMIN_KEY"))
+    ADMIN_USERNAME = str(os.environ.get("ADMIN_USERNAME"))
+    ADMIN_PASSWORD = str(os.environ.get("ADMIN_PASSWORD"))
     TWITTER_API_KEY = str(os.environ.get('TWITTER_API_KEY'))
     TWITTER_API_SECRET_KEY = str(os.environ.get('TWITTER_API_SECRET_KEY'))
     TWITTER_ACCESS_TOKEN = str(os.environ.get('TWITTER_ACCESS_TOKEN'))
