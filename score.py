@@ -13,8 +13,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
-nltk.download('stopwords')
-nltk.download('wordnet')
+# nltk.download('stopwords')
+# nltk.download('wordnet')
 
 def clean_text(text):
     lemmatizer = WordNetLemmatizer()

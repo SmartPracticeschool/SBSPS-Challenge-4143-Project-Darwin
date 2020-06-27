@@ -1,10 +1,15 @@
+import json
+import database
+
 import flask
 import flask_login
+from flask_cors import CORS
 from k3y5 import ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_KEY
 
 app = flask.Flask(__name__)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+CORS(app, support_credentials=True)
 
 # ---- flask login setup ----------------------------------
 app.secret_key = ADMIN_KEY
@@ -36,6 +41,15 @@ def request_loader(request):
 @app.route('/', methods=['GET'])
 def homepage():
     return flask.render_template('homepage.html')
+
+@app.route('/darwin/<jobid>', methods=['GET'])
+def darwin(jobid):
+    return flask.render_template('chatbot.html', jobid = jobid)
+
+@app.route('/data/getAllJobs', methods=['GET'])
+def getAllJobs():
+    allJobs = database.getAllJobs()
+    return json.dumps(allJobs)
 # -----------------------------------------------------
 
 # ---- admin services ---------------------------------
@@ -74,4 +88,14 @@ def unauthorized_handler():
 # -------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run()
+    from os import path, walk
+
+    extra_dirs = ['templates/', 'static/']
+    extra_files = extra_dirs[:]
+    for extra_dir in extra_dirs:
+        for dirname, dirs, files in walk(extra_dir):
+            for filename in files:
+                filename = path.join(dirname, filename)
+                if path.isfile(filename):
+                    extra_files.append(filename)
+    app.run(debug=True, extra_files=extra_files)

@@ -14,13 +14,13 @@ def add_candidate(newCandy):
         print('error fetching ideal data from JOBS_RAW')
         return False
 
-    # try:
-    print('scoring candidate..')
-    candyScore = score.score_candidate(newCandy, ideal_data)
-    print('candidate scored!')
-    # except:
-    #     print('Error scoring candidate')
-    #     return False
+    try:
+        print('scoring candidate..')
+        candyScore = score.score_candidate(newCandy, ideal_data)
+        print('candidate scored!')
+    except:
+        print('Error scoring candidate')
+        return False
 
     try:
         ibm_db_conn = ibm_db.connect(dsn, '', '')
@@ -181,6 +181,75 @@ def getJobReq(id):
         'date_join_mul': jobReq[17]
     }
 
+def getAllJobs():
+    try:
+        ibm_db_conn = ibm_db.connect(dsn, '', '')
+        conn = ibm_db_dbi.Connection(ibm_db_conn)
+        cursor = conn.cursor()
+        print ("Connected to {0}".format(DB2_DB))
+    except:
+        print ("Couldn't Connect to Database")
+        return False
+    
+    try:
+        q1 = "SELECT JOBID, JOBROLE, JOBLOC, JOBDESC, JOBSKILLS, JOBYOE"
+        q1 = q1 + " FROM JOBS_RAW;"
+        cursor.execute(q1)
+        jobReq = cursor.fetchall()
+        allJobs = []
+        for j in jobReq:
+            thisJob = {
+                'id': j[0],
+                'role': j[1],
+                'loc': j[2],
+                'des': j[3],
+                'skill': j[4],
+                'yoe': j[5]
+            }
+            allJobs.append(thisJob)
+    except:
+        print ('Error Querying JOB Requirements')
+        ibm_db.close(ibm_db_conn)
+        print ("connection closed")
+        return False
+    
+    print('fetched job requirements')
+    ibm_db.close(ibm_db_conn)
+    print ("connection closed")
+    return allJobs
+
+# def getCandidates(id):
+#     try:
+#         ibm_db_conn = ibm_db.connect(dsn, '', '')
+#         conn = ibm_db_dbi.Connection(ibm_db_conn)
+#         cursor = conn.cursor()
+#         print ("Connected to {0}".format(DB2_DB))
+#     except:
+#         print ("Couldn't Connect to Database")
+#         return False
+#     print("fetching candidates for JOBID=" + str(id))
+#     try:
+#         cursor.execute("SELECT CANDY_ID, CNAME, EMAIL, FROM JOB_" + str(id) + ";")
+#         fetchd = cursor.fetchall()
+#         candidates = []
+#         for f in fetchd:
+#             thisCandy = {
+#                 'candyId': f[0],
+#                 'name': f[1],
+#                 'email': f[2],
+#                 'gitId': f[3],
+#                 'tweetid':
+#             }
+#     except:
+#         print ("JOB_" + str(id) + " Query Error!")
+#         ibm_db.close(ibm_db_conn)
+#         print ("connection closed")
+#         return False
+#     ibm_db.close(ibm_db_conn)
+#     print ('fetched succesfully!')
+#     print ("connection closed")
+#     # return 
+
 # add_job({
 #     'jobrole': "BACKEND DEVELOPER",
 #     'location': "Delhi, India",
@@ -206,18 +275,21 @@ def getJobReq(id):
 #     'date_join_mul': 0.5
 # })
 
-add_candidate({
-    "jobId": "1",
-    "cname": "Mihir Singh",
-    "email": "mihirs16@gmail.com",
-    "gitId": "mihirs16",
-    "tweetId": "@cached_cadet",
-    "yoe": 2,
-    "jobskills": "AI, Data Science, Frontend",
-    "self_desc": "Highly interested in unlocking answers through Data and Stats for questions in fields like Electronics, Robotics Healthcare, Media and Sports. I am currently learning and working in the field of Natural Language Processing and Deep Learning.",
-    "job_want_why": "Well, I believe Blueprint can help me develop my skills and offer me a fair paygrade for all my work",
-    "job_req_what": "I think I will be assigned to a team that develops software and I will handle the frontend.",
-    "passion": "I am passionate about my technology and the web.",
-    "date_join": "6-20-20",
-    "agree_data": 1,
-})
+# add_candidate({
+#     "jobId": "1",
+    # "cname": "Mihir Singh",
+    # "email": "mihirs16@gmail.com",
+    # "gitId": "mihirs16",
+    # "tweetId": "@cached_cadet",
+    # "yoe": 2,
+    # "jobskills": "AI, Data Science, Frontend",
+    # "self_desc": "Highly interested in unlocking answers through Data and Stats for questions in fields like Electronics, Robotics Healthcare, Media and Sports. I am currently learning and working in the field of Natural Language Processing and Deep Learning.",
+    # "job_want_why": "Well, I believe Blueprint can help me develop my skills and offer me a fair paygrade for all my work",
+    # "job_req_what": "I think I will be assigned to a team that develops software and I will handle the frontend.",
+    # "passion": "I am passionate about my technology and the web.",
+    # "date_join": "6-20-20"
+# })
+
+# print(getAllJobs())
+
+# print(getCandidates(1))

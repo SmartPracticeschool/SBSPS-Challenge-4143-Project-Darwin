@@ -35,7 +35,7 @@
 }
 
 .lowsection {
-    height: 2300px; 
+    min-height: 2300px; 
     position: relative;
     bottom: 100px;
     box-shadow: 0 -3px 10px 0 rgba(0, 0, 0, 0.16);
@@ -182,7 +182,6 @@
 
 .jobcard:hover .altdet {
     display: block;
-    width: 85%;
 }
 
 .footsection {

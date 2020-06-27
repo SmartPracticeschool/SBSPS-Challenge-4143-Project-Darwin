@@ -14,11 +14,11 @@
     <title>Admin - Jobs</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='Assets/Logo-wo Name.svg') }}" type="image/gif" sizes="16x16">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='billboard.css') }}">
+    <!-- Custom Js -->
+    <script src="{{ url_for('static', filename='allJobs_admin.js') }}"></script>    
 </head>
 <body>
     <!-- Navigation -->
@@ -58,63 +58,20 @@
                     </form>
                 </div>
             </div>
-            <div style="display: flex; justify-content: center;">
-                <div class="row">
-                    
-                    <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
-                        <div class="defaultdet">
-                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
-                            <div class="row ml-1 joblocation">Oslo | Paris</div>
-                        </div>
-                        <div class="altdet">
-                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
-                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
-                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
-                        </div>    
-                        <div class="applybutton">APPLY <img src="{{ url_for('static', filename='Assets/arrow.svg') }}" width="25px" height="25px"></div>
+            <div style="display: none;">
+                <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
+                    <div class="defaultdet">
+                        <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
+                        <div class="row ml-1 joblocation">Oslo | Paris</div>
                     </div>
-
-                    <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
-                        <div class="defaultdet">
-                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
-                            <div class="row ml-1 joblocation">Oslo | Paris</div>
-                        </div>
-                        <div class="altdet">
-                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
-                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
-                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
-                        </div>    
-                        <div class="applybutton">APPLY <img src="{{ url_for('static', filename='Assets/arrow.svg') }}" width="25px" height="25px"></div>
-                    </div>
-
-                    <div onclick="location.href='https:\/\/css-tricks.com/creating-clickable-divs/';" class="col m-3 p-3 jobcard">
-                        <div class="defaultdet">
-                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
-                            <div class="row ml-1 joblocation">Oslo | Paris</div>
-                        </div>
-                        <div class="altdet">
-                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
-                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
-                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
-                        </div>    
-                        <div class="applybutton">APPLY <img src="{{ url_for('static', filename='Assets/arrow.svg') }}" width="25px" height="25px"></div>
-                    </div>
+                    <div class="altdet">
+                        <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
+                        <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
+                        <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
+                    </div>    
+                    <div class="applybutton">APPLY <img src="{{ url_for('static', filename='Assets/arrow.svg') }}" width="25px" height="25px"></div>
                 </div>
-            </div>
-            <div style="display: flex; justify-content: center;">
-                <div class="row">
-                    <div class="col m-3 jobcard"></div>
-                    <div class="col m-3 jobcard"></div>                
-                    <div class="col m-3 jobcard"></div>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: center;">
-                <div class="row">
-                    <div class="col m-3 jobcard"></div>
-                    <div class="col m-3 jobcard"></div>                
-                    <div class="col m-3 jobcard"></div>
-                </div>
-            </div>
+            </div>    
         </div>
     </div>
 

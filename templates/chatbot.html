@@ -9,20 +9,24 @@
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- Title -->
-    <title>Darwin - Home</title>
+    <title>Admin - Chatbot</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='Assets/Logo-wo Name.svg') }}" type="image/gif" sizes="16x16">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
     <!-- Custom Js -->
-    <script src="{{ url_for('static', filename='allJobs_home.js') }}"></script>    
+    <script src="{{ url_for('static', filename='chatbot.js') }}"></script>  
 </head>
-<body>
+<body onload="greet()">
+    <!-- Meta -->
+    <div id="data" style="display: none;">
+        {{ jobid }}
+    </div>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
                 <img src="{{ url_for('static', filename='Assets/Logo-w Name.svg') }}" height="50px" width="250px">
@@ -45,81 +49,67 @@
             </div>
         </div>
     </nav>
-    <!-- Masthead -->
-    <div class="fluid-container" id="masthead">
-        <div class="row">
-            <div class="col">
-                <div style="padding-left: 20%; padding-top: 25%;">
-                    <img class="img-fluid" src="{{ url_for('static', filename='Assets/Home_page_1.svg') }}">
-                </div>
-            </div>
-            <div class="col">
-                <div style="padding-top: 30%; width: 600px;">
-                    <h1 id="darwin-way-head">The Darwin Way</h1>
-                    <span id="darwin-way">
-                        Phasellus dignissim, tellus in pellentesque mollis, mauris orci dignissim nisl, id gravida nunc enim quis nibh. Maecenas convallis eros a ante dignissim, vitae elementum metus facilisis. Cras in maximus sem. Praesent libero augue, ornare eget quam sed, volutpat suscipit arcu. Duis ut urna commodo, commodo tellus ac, consequat justo.
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Midsection -->
-    <div class="fluid-container mid-section">
-        <div class="row">
-            <div class="col" id="midsection-female">
-                <img height="500px" width="200px" src="{{ url_for('static', filename='Assets/Home_page_2.svg') }}">
-            </div>
-            <div class="col">
-                <div style="padding-top: 15%; width: 400px; font-size: large; text-align: center;">
-                    <h1 id="darwin-mid-head">Why us?</h1>
-                    <span id="why-us">
-                        Phasellus dignissim, tellus in pellentesque mollis, mauris orci dignissim nisl, id gravida nunc enim quis nibh. Maecenas convallis eros a ante dignissim, vitae elementum metus facilisis. Cras in maximus sem. Praesent libero augue, ornare eget quam sed, volutpat suscipit arcu. Duis ut urna commodo, commodo tellus ac, consequat justo.                    
-                    </span>
-                </div>
-            </div>
-            <div class="col-4" id="midsection-male" style="padding-left: 10%;">
-                <img height="500px" src="{{ url_for('static', filename='Assets/Home_page_3.svg') }}">
-            </div>
-        </div>
-    </div>
-    <!-- Careersection -->
-    <div class="fluid-container mid-section lowsection">
-        <div class="row">
-            <div class="col">
-                <div style="text-align: right; padding-left: 25%; padding-top: 25%; width: 750px;">
-                    <h1 id="what-want-head">What we want</h1>
-                    <span id="what-want">
-                        Phasellus dignissim, tellus in pellentesque mollis, mauris orci dignissim nisl, id gravida nunc enim quis nibh. Maecenas convallis eros a ante dignissim, vitae elementum metus facilisis. Cras in maximus sem. Praesent libero augue, ornare eget quam sed, volutpat suscipit arcu. Duis ut urna commodo, commodo tellus ac, consequat justo.
-                    </span>
-                </div>
-            </div>
-            <div class="col">
-                <div style="padding-left: 20%; padding-top: 25%;">
-                    <img class="img-fluid" height="350px" width="410" src="{{ url_for('static', filename='Assets/Home_page_4.svg') }}">
-                </div>
-            </div>
-        </div>
-        <!-- Career Opportunities -->
-        <div style="display: flex; justify-content: center;">
-            <div id="career-section">
-                <h1 id="career-head">Career Opportunities</h1>
-                <div style="display: none;"> 
-                    <div class="col m-3 p-3 jobcard">
-                        <div class="defaultdet">
-                            <div class="row ml-1 jobtitle">BACKEND DEVELOPER</div>
-                            <div class="row ml-1 joblocation">Oslo | Paris</div>
+
+    <!-- Chatbot -->
+    <div class="container" id="window">
+        <div class="container" id="chatwindow">
+            <div id="dialogueTemplate" style="display: none;">
+                <div class="row mt-2 bot_dialogue">
+                    <div class="col-auto dp" style="height: 100%;">
+                        <img src="{{ url_for('static', filename='Assets/ChatBot-Full.svg') }}" height="75px" width="75px">
+                    </div>
+                    <div class="col-auto pt-4">
+                        <div class="row no-gutters">
+                            <div class="col-auto">
+                                <img src="{{ url_for('static', filename='Assets/bot_bubble.svg') }}" height="15px" width="15px">
+                            </div>
+                            <div class="col-auto">
+                                <div class="dialogue bot">
+                                    Hey what's up! I am Darwin, and I will be handling your interview today! Isn't it just a lovely day? What would you indulge yourself in on such a beautiful day?
+                                </div>
+                            </div>
                         </div>
-                        <div class="altdet">
-                            <div class="row ml-1 joblocation">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great it would be fun.</div>
-                            <div class="row ml-1 mt-3 joblocation" style="font-size: 20px;">HTML | CSS | JavaScript</div>
-                            <div class="row ml-1 mt-1 joblocation" style="font-size: 17.5px;">Experience: 2 Years</div>
-                        </div>    
-                        <div class="applybutton">APPLY <img src="{{ url_for('static', filename='Assets/arrow.svg') }}" width="25px" height="25px"></div>
                     </div>
                 </div>
+                <div class="row mt-2 justify-content-end user_dialogue">
+                    <div class="col-auto pt-4">
+                        <div class="row no-gutters">
+                            <div class="col-auto">
+                                <div class="dialogue user">
+                                    Hey what's up!
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <img src="{{ url_for('static', filename='Assets/user_bubble.svg') }}" height="15px" width="15px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto dp" style="height: 100%;">
+                        <img src="{{ url_for('static', filename='Assets/User.svg') }}" height="75px" width="75px">
+                    </div>
+                </div>
+           </div>
+        </div>
+        <div class="row mb-5 mt-5 justify-content-center">
+            <div id="message">
+                <form style="margin: 0;">
+                    <input type="text" placeholder="type a message" maxlength="255" id="msginput">
+                    <button type="submit" onclick="event.preventDefault(); sendMessage();" id="sendbutton">
+                        <img src="{{ url_for('static', filename='Assets/Send_button.svg') }}" alt="send" width="35px" height="35px">
+                    </button>
+                </form>
             </div>
         </div>
+        <form action="">
+            <button class="btn edit" onclick="location.href='http:\/\/localhost:5000/';">
+                BROWSE OTHER JOBS
+            </button>
+            <button class="btn select" onclick="event.preventDefault(); sendData();">
+                END INTERVIEW
+            </button>
+        </form>
     </div>
+
     <!-- Footer Section -->
     <div class="fluid-container mid-section footsection" id="footer">
         <div class="row">
