@@ -91,3 +91,5 @@ def gitDistance(user1, user2):
         "recentContri": abs(stat1['recentContri'] - stat2['recentContri'])
     }
     return (score['avgContri']/10 + score['recentContri']/100)/2
+
+
