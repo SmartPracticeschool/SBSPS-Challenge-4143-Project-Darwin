@@ -1,12 +1,14 @@
+# imports
 import ibm_db
 import ibm_db_dbi
 import datetime
 from k3y5 import DB2_DB, DB2_HOSTNAME, DB2_PWD, DB2_UID
-
 import score
 
+# database connection string
 dsn = "DATABASE=" + DB2_DB + ";HOSTNAME=" + DB2_HOSTNAME + ";PORT=50000;PROTOCOL=TCPIP;" + "UID=" + DB2_UID  + ";PWD=" + DB2_PWD + ";"
 
+# add single candidate and calculate score
 def add_candidate(newCandy):
     try:
         ideal_data = getJobReq(newCandy['jobId'])
@@ -67,6 +69,8 @@ def add_candidate(newCandy):
     print ("connection closed")
     return True
 
+
+# add single job to jobs_raw and create job_<id> table
 def add_job(jobData):
     try:
         ibm_db_conn = ibm_db.connect(dsn, '', '')
@@ -136,6 +140,7 @@ def add_job(jobData):
     print ("connection closed")
     return jobCount+1
 
+# return job data from db for given ID
 def getJobReq(id):
     try:
         ibm_db_conn = ibm_db.connect(dsn, '', '')
@@ -181,6 +186,7 @@ def getJobReq(id):
         'date_join_mul': jobReq[17]
     }
 
+# return all job data from DB
 def getAllJobs():
     try:
         ibm_db_conn = ibm_db.connect(dsn, '', '')
@@ -218,38 +224,7 @@ def getAllJobs():
     print ("connection closed")
     return allJobs
 
-# def getCandidates(id):
-#     try:
-#         ibm_db_conn = ibm_db.connect(dsn, '', '')
-#         conn = ibm_db_dbi.Connection(ibm_db_conn)
-#         cursor = conn.cursor()
-#         print ("Connected to {0}".format(DB2_DB))
-#     except:
-#         print ("Couldn't Connect to Database")
-#         return False
-#     print("fetching candidates for JOBID=" + str(id))
-#     try:
-#         cursor.execute("SELECT CANDY_ID, CNAME, EMAIL, FROM JOB_" + str(id) + ";")
-#         fetchd = cursor.fetchall()
-#         candidates = []
-#         for f in fetchd:
-#             thisCandy = {
-#                 'candyId': f[0],
-#                 'name': f[1],
-#                 'email': f[2],
-#                 'gitId': f[3],
-#                 'tweetid':
-#             }
-#     except:
-#         print ("JOB_" + str(id) + " Query Error!")
-#         ibm_db.close(ibm_db_conn)
-#         print ("connection closed")
-#         return False
-#     ibm_db.close(ibm_db_conn)
-#     print ('fetched succesfully!')
-#     print ("connection closed")
-#     # return 
-
+# ---- mock functions -----------------------------------------------------------
 # add_job({
 #     'jobrole': "BACKEND DEVELOPER",
 #     'location': "Delhi, India",
@@ -274,7 +249,6 @@ def getAllJobs():
 #     'passion_mul': 0.5,
 #     'date_join_mul': 0.5
 # })
-
 # add_candidate({
 #     "jobId": "1",
     # "cname": "Mihir Singh",
@@ -289,7 +263,6 @@ def getAllJobs():
     # "passion": "I am passionate about my technology and the web.",
     # "date_join": "6-20-20"
 # })
-
 # print(getAllJobs())
-
 # print(getCandidates(1))
+# -------------------------------------------------------------------------------------------

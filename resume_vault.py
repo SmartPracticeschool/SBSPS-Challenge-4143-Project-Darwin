@@ -1,8 +1,12 @@
+# ------- importing secret keys ----------------
 from k3y5 import COS_API_KEY_ID, COS_AUTH_ENDPOINT, COS_ENDPOINT, COS_RESOURCE_CRN, COS_SERVICE_CRN
-
+# ----------------------------------------------
+# ------- import boto --------------------------
 import ibm_boto3
 from ibm_botocore.client import Config, ClientError
+# ----------------------------------------------
 
+# get list of buckets in cloud object storage
 def get_buckets():
     cos = ibm_boto3.resource("s3",
         ibm_api_key_id=COS_API_KEY_ID,
@@ -21,6 +25,8 @@ def get_buckets():
     except Exception as e:
         print("Unable to retrieve list buckets: {0}".format(e))
 
+
+# get list of contents in given bucket name
 def get_bucket_contents(bucket_name="darwin-resume-vault"):
     cos = ibm_boto3.resource("s3",
         ibm_api_key_id=COS_API_KEY_ID,
@@ -39,6 +45,7 @@ def get_bucket_contents(bucket_name="darwin-resume-vault"):
     except Exception as e:
         print("Unable to retrieve bucket contents: {0}".format(e))
 
+# retrieve specfic item from given bucket
 def get_item(bucket_name, item_name="darwin-resume-vault"):
     cos = ibm_boto3.resource("s3",
         ibm_api_key_id=COS_API_KEY_ID,
@@ -56,6 +63,7 @@ def get_item(bucket_name, item_name="darwin-resume-vault"):
     except Exception as e:
         print("Unable to retrieve file contents: {0}".format(e))
 
+# upload item to particular bucket
 def upload_item(item_key, up_from, bucket_name="darwin-resume-vault"):
     cos = ibm_boto3.client("s3",
         ibm_api_key_id=COS_API_KEY_ID,
@@ -74,6 +82,7 @@ def upload_item(item_key, up_from, bucket_name="darwin-resume-vault"):
         print("Unable to Upload to Bucket: {0}".format(e))
     return False
 
+# download specific item from given bucket
 def download_item (item_key, save_to, bucket_name="darwin-resume-vault"):
     cos = ibm_boto3.client("s3",
         ibm_api_key_id=COS_API_KEY_ID,
@@ -93,8 +102,10 @@ def download_item (item_key, save_to, bucket_name="darwin-resume-vault"):
     return False
 
 
+# ---- test functions -------------------------------------
 # get_buckets ()
 # get_bucket_contents ("darwin-resume-vault")
 # get_item ("darwin-resume-vault", "mihir_singh")
 # upload_item("darwin-resume-vault", "siddhant_thakur", "data_src\\resume\\sid_resume.pdf")
 # download_item ("darwin-resume-vault", "siddhant_thakur", "siddhant_thakur.pdf")
+# ---------------------------------------------------------

@@ -35,6 +35,7 @@ def vector_angle(D1, D2):
     denominator = math.sqrt(dotProduct(D1, D1)*dotProduct(D2, D2)) 
     return math.acos(numerator / denominator) 
   
+# function for calculating document distance between two text
 def documentSimilarity(text1, text2): 
     sorted_word_list_1 = word_frequencies_for_file(text1) 
     sorted_word_list_2 = word_frequencies_for_file(text2) 

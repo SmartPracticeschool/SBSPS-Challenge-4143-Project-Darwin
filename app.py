@@ -88,6 +88,7 @@ def unauthorized_handler():
 # -------------------------------------------------------
 
 if __name__ == "__main__":
+    # for hot reload and tracking static files and templates
     from os import path, walk
 
     extra_dirs = ['templates/', 'static/']
@@ -98,4 +99,6 @@ if __name__ == "__main__":
                 filename = path.join(dirname, filename)
                 if path.isfile(filename):
                     extra_files.append(filename)
+
+    # flask app run
     app.run(debug=True, extra_files=extra_files)

@@ -1,21 +1,23 @@
+# ----- importing configuration ------------------------------------
 import os
 import sys
 sys.path.insert(1, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data_src\\git_data\\'))
 sys.path.insert(2, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data_src\\twitter_data\\'))
-
+# ----- imports ----------------------------------------------------
 import github_api as git
 import fetch as twt
 import doc_dist as dd
-
 import datetime
 import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+# ------------------------------------------------------------------
+# nltk downloads
+nltk.download('stopwords')
+nltk.download('wordnet')
 
-# nltk.download('stopwords')
-# nltk.download('wordnet')
-
+# text cleaning function w/ lemmatization
 def clean_text(text):
     lemmatizer = WordNetLemmatizer()
     text = re.sub("\'", "", text) 
@@ -31,11 +33,13 @@ def clean_text(text):
     text = ' '.join(no_stopword_text)
     return text
 
+# document distance function
 def doc_dist(text1, text2):
     text1 = clean_text(text1)
     text2 = clean_text(text2)
     return dd.documentSimilarity(text1, text2)
 
+# scoring overall candidate for job
 def score_candidate(candy_data, ideal_data):
     print(":scoring git")
     git_score = git.gitDistance(ideal_data['gitId'], candy_data['gitId']) * ideal_data['gitId_mul']
@@ -50,7 +54,6 @@ def score_candidate(candy_data, ideal_data):
     passion_score = -doc_dist(candy_data['passion'], ideal_data['passion']) * ideal_data['passion_mul']
     job_skills_score = -doc_dist(candy_data['jobskills'], ideal_data['jobskills']) * ideal_data['jobskills_mul']
     yoe_score = abs(ideal_data['yoe'] - candy_data['yoe']) * ideal_data['yoe_mul']
-    # print(str(ideal_data['date_join']))
     try:
         date_join_score = (datetime.datetime.strptime(str(ideal_data['date_join']), '%Yy-%m-%d') - datetime.datetime.strptime(candy_data['date_join'], '%m-%d-%y')).days * ideal_data['date_join_mul'] 
         print("date added")
