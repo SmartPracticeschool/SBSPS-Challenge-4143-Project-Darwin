@@ -1,3 +1,4 @@
+# Importing required libraries
 import os
 import sys
 sys.path.insert(1, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..\\..\\'))
@@ -7,8 +8,8 @@ import json
 import itertools  
 import collections 
 import numpy as np
-# from rank_bm25 import BM25Okapi
 
+# Function to get information output in JSON format
 def apiToJson(url):
     payload = ''
     headers = {
@@ -20,6 +21,7 @@ def apiToJson(url):
     
     return (json.loads(response.text), response.headers)
 
+# Function used to get Github data of the user
 def getUserGitData(user):
     try:
         repoList = apiToJson("https://api.github.com/users/" + user + "/repos")[0]
@@ -78,23 +80,14 @@ def getUserGitData(user):
     except:
         print("Invalid Username")
         return None
-    
+
+# Function used to calculate the difference between two users regarding their average and recent contribution  
 def gitDistance(user1, user2):
     stat1 = getUserGitData(user1)
     stat2 = getUserGitData(user2)
-    # corpus = [
-    #     'Python'
-    # ]
 
-    # bm25 = BM25Okapi(corpus)
-    # query = 'Python'
-
-    # doc_scores = bm25.get_scores(query)
-    # print(doc_scores)
     score = {
         "avgContri": abs(stat1['avgContri'] - stat2['avgContri']),
         "recentContri": abs(stat1['recentContri'] - stat2['recentContri'])
     }
     return (score['avgContri']/10 + score['recentContri']/100)/2
-
-# print(gitDistance('mihirs16', 'hritikbhandari'))
