@@ -15,15 +15,21 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='Assets/Logo-wo Name.svg') }}" type="image/gif" sizes="16x16">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="page.css">
-    <link rel="stylesheet" href="job_applicants.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='job_applicants.css') }}">
+    <!-- Custom Js -->
+    <script src="{{ url_for('static', filename='job_applicants.js') }}"></script>    
 </head>
-<body>
+<body onload="loadCandidateList();">
+    <!-- Meta Data -->
+    <div id="meta" style="display: none;">
+        {{ jobid }}
+    </div>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <img src="Assets/Logo-w Name.svg" height="50px" width="250px">
+                <img src="{{ url_for('static', filename='Assets/Logo-w Name.svg') }}" height="50px" width="250px">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -31,10 +37,10 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="job_billboard.html"><span style="color: #1971c2; font-size: x-large;">All Jobs</span></a>
+                        <a class="nav-link js-scroll-trigger" href="http://localhost:5000/billboard"><span style="color: #1971c2; font-size: x-large;">All Jobs</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="admin_login.html"><span style="color: #1971c2; font-size: x-large;">Log Out</span></a>
+                        <a class="nav-link js-scroll-trigger" href="http://localhost:5000/logout"><span style="color: #1971c2; font-size: x-large;">Log Out</span></a>
                     </li>
                 </ul>
             </div>
@@ -73,149 +79,25 @@
                 </div>
             </div>
             <div class="container" id="all-applicants">
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
+                
+                <div style="display: none;">
+                    <div class="row p-3" id="this-applicant">
+                        <div class="col">
+                            <span class="candy-name">Patricia Carrol</span>
+                            <span class="candy-mail">andreea.estradia@gmail.com</span>
+                        </div>
+                        <div class="col-1 p-2">
+                            <img src="{{ url_for('static', filename='Assets/Resume.svg') }}" width="auto" height="50px">
+                        </div>
+                        <div class="col-1 p-2">
+                            <img src="{{ url_for('static', filename='Assets/candy_email.svg') }}" style="margin-top: 5px;" width="auto" height="40px">
+                        </div>
+                        <div class="col-1 pt-2 pl-1 pr-0">
+                            <div class="candy-score">93%</div>
+                        </div>
                     </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
-    
-                <div class="row p-3" id="this-applicant">
-                    <div class="col">
-                        <span class="candy-name">Patricia Carrol</span>
-                        <span class="candy-mail">andreea.estradia@gmail.com</span>
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/Resume.svg" width="auto" height="50px">
-                    </div>
-                    <div class="col-1 p-2">
-                        <img src="Assets/candy_email.svg" style="margin-top: 5px;" width="auto" height="40px">
-                    </div>
-                    <div class="col-1 pt-2 pl-1 pr-0">
-                        <div class="candy-score">93%</div>
-                    </div>
-                </div>
+                </div>    
+                
             </div>
         </div>
         <div id="dashboard">

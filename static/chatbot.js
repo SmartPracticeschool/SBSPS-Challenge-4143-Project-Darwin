@@ -58,23 +58,22 @@ function postConvo () {
     dialogueTemplate = document.getElementsByClassName("row mt-2 user_dialogue")[0];
     // console.log(dialogueTemplate);
     uploadForm = document.createElement('form');
+    uploadForm.action = "http://localhost:5000/data/newCandidate"
     uploadForm.method = "POST";
-    uploadForm.encType = "multipart/form-data";
+    uploadForm.enctype = "multipart/form-data";
+    uploadForm.id = "send-data"
+    
     fileInput = document.createElement('input');
     fileInput.id = "resumeFile";
+    fileInput.name = "resumeFile";
     fileInput.type = "file";
-    newDialogue = dialogueTemplate.cloneNode(true);
-    newDialogue.getElementsByClassName("dialogue user")[0].innerText = "Upload Resume\n\n";
-    uploadForm.appendChild(fileInput);
-    newDialogue.getElementsByClassName("dialogue user")[0].appendChild(uploadForm);
-    chatWindow.appendChild(newDialogue);
-}
 
-function sendData () {
-    thisJobId = document.getElementById("data").innerText;
-    thisResume = document.getElementById("resumeFile").value;
-    thisData = {
-        "jobid": parseInt(thisJobId),
+    jsonInput = document.createElement('input');
+    jsonInput.id = "jsonInput";
+    jsonInput.name = "jsonInput";
+    jsonInput.type = "text";
+    jsonInput.value = JSON.stringify({
+        "jobid": parseInt(document.getElementById("data").innerText),
         "cname": responses[1],
         "email": responses[2],
         "gitId": responses[3],
@@ -86,7 +85,17 @@ function sendData () {
         "passion": responses[9],
         "job_want_why": responses[10],
         "date_join": responses[11],
-        "resume_filename": thisResume
-    };
-    console.log(thisData);
+    });
+    jsonInput.style = "display: none;"
+
+    newDialogue = dialogueTemplate.cloneNode(true);
+    newDialogue.getElementsByClassName("dialogue user")[0].innerText = "Upload Resume\n\n";
+    uploadForm.appendChild(fileInput);
+    uploadForm.appendChild(jsonInput);
+    newDialogue.getElementsByClassName("dialogue user")[0].appendChild(uploadForm);
+    chatWindow.appendChild(newDialogue);
+}
+
+function sendData () {
+    document.getElementById("send-data").submit();
 }

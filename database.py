@@ -4,12 +4,13 @@ import ibm_db_dbi
 import datetime
 from k3y5 import DB2_DB, DB2_HOSTNAME, DB2_PWD, DB2_UID
 import score
+import resume_vault
 
 # database connection string
 dsn = "DATABASE=" + DB2_DB + ";HOSTNAME=" + DB2_HOSTNAME + ";PORT=50000;PROTOCOL=TCPIP;" + "UID=" + DB2_UID  + ";PWD=" + DB2_PWD + ";"
 
 # add single candidate and calculate score
-def add_candidate(newCandy):
+def add_candidate(newCandy, resumeFilePath):
     try:
         ideal_data = getJobReq(newCandy['jobId'])
     except:
@@ -60,6 +61,15 @@ def add_candidate(newCandy):
             print(r)
     except:
         print ("Candy Query Error!")
+        ibm_db.close(ibm_db_conn)
+        print ("connection closed")
+        return False
+
+    try:
+        print ("uploading resume for " + str(newCandy['jobId']) + "_" + str(candyCount+1))
+        resume_vault.upload_item(str(newCandy['jobId']) + "_" + str(candyCount+1), resumeFilePath)
+    except:
+        print ("resume upload error")
         ibm_db.close(ibm_db_conn)
         print ("connection closed")
         return False
@@ -224,6 +234,42 @@ def getAllJobs():
     print ("connection closed")
     return allJobs
 
+# return all candidates for a given jobId
+def getAllCandidates(id):
+    try:
+        ibm_db_conn = ibm_db.connect(dsn, '', '')
+        conn = ibm_db_dbi.Connection(ibm_db_conn)
+        cursor = conn.cursor()
+        print ("Connected to {0}".format(DB2_DB))
+    except:
+        print ("Couldn't Connect to Database")
+        return False
+
+    try:
+        q1 = "SELECT * FROM JOB_" + str(id)
+        q1 = q1 + " ORDER BY OVERALL_SCORE DESC;"
+        cursor.execute(q1)
+        candyData = cursor.fetchall()
+        allCandy = []
+        for candy in candyData:
+            thisCandy = {
+                "id": candy[0],
+                "name": candy[1],
+                "email": candy[2],
+                "score": candy[-1]
+            }
+            allCandy.append(thisCandy)
+    except:
+        print ('Error Querying Candidates')
+        ibm_db.close(ibm_db_conn)
+        print ("connection closed")
+        return False
+    
+    print('fetched candidates')
+    ibm_db.close(ibm_db_conn)
+    print ("connection closed")
+    return allCandy
+
 # ---- mock functions -----------------------------------------------------------
 # add_job({
 #     'jobrole': "BACKEND DEVELOPER",
@@ -250,19 +296,19 @@ def getAllJobs():
 #     'date_join_mul': 0.5
 # })
 # add_candidate({
-#     "jobId": "1",
-    # "cname": "Mihir Singh",
-    # "email": "mihirs16@gmail.com",
-    # "gitId": "mihirs16",
-    # "tweetId": "@cached_cadet",
-    # "yoe": 2,
-    # "jobskills": "AI, Data Science, Frontend",
-    # "self_desc": "Highly interested in unlocking answers through Data and Stats for questions in fields like Electronics, Robotics Healthcare, Media and Sports. I am currently learning and working in the field of Natural Language Processing and Deep Learning.",
-    # "job_want_why": "Well, I believe Blueprint can help me develop my skills and offer me a fair paygrade for all my work",
-    # "job_req_what": "I think I will be assigned to a team that develops software and I will handle the frontend.",
-    # "passion": "I am passionate about my technology and the web.",
-    # "date_join": "6-20-20"
-# })
+#     "jobId": "2",
+#     "cname": "Mihir Singh",
+#     "email": "mihirs16@gmail.com",
+#     "gitId": "mihirs16",
+#     "tweetId": "@cached_cadet",
+#     "yoe": 2,
+#     "jobskills": "AI, Data Science, Frontend",
+#     "self_desc": "Highly interested in unlocking answers through Data and Stats for questions in fields like Electronics, Robotics Healthcare, Media and Sports. I am currently learning and working in the field of Natural Language Processing and Deep Learning.",
+#     "job_want_why": "Well, I believe Blueprint can help me develop my skills and offer me a fair paygrade for all my work",
+#     "job_req_what": "I think I will be assigned to a team that develops software and I will handle the frontend.",
+#     "passion": "I am passionate about my technology and the web.",
+#     "date_join": "6-20-20"
+# }, "data_src\\resume\\mihir_resume.pdf")
 # print(getAllJobs())
-# print(getCandidates(1))
+# print(getAllCandidates(1))
 # -------------------------------------------------------------------------------------------

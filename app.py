@@ -1,15 +1,18 @@
-import json
 import database
+import json
+import os
 
 import flask
 import flask_login
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 from k3y5 import ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_KEY
 
 app = flask.Flask(__name__)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 CORS(app, support_credentials=True)
+app.config['FILE_UPLOADS'] = 'resume_uploads'
 
 # ---- flask login setup ----------------------------------
 app.secret_key = ADMIN_KEY
@@ -49,7 +52,32 @@ def darwin(jobid):
 @app.route('/data/getAllJobs', methods=['GET'])
 def getAllJobs():
     allJobs = database.getAllJobs()
-    return json.dumps(allJobs)
+    return flask.jsonify(allJobs)
+
+@app.route('/data/newCandidate', methods=['POST'])
+def newCandidate():
+    resumeFile = flask.request.files['resumeFile']
+    candyInfo = json.loads(flask.request.form['jsonInput'])
+    path = os.path.join(app.config["FILE_UPLOADS"], secure_filename(resumeFile.filename))
+    resumeFile.save(path)
+    print (":adding new candidate")
+    database.add_candidate({
+        "jobId": str(candyInfo['jobid']),
+        "cname": candyInfo['cname'],
+        "email": candyInfo['email'],
+        "gitId": candyInfo['gitId'],
+        "tweetId": candyInfo['tweetId'],
+        "yoe": int(candyInfo['yoe']),
+        "jobskills": candyInfo['jobskills'],
+        "self_desc": candyInfo['self_desc'],
+        "job_want_why": candyInfo['job_want_why'],
+        "job_req_what": candyInfo['job_req_what'],
+        "passion": candyInfo['passion'],
+        "date_join": candyInfo['date_join']
+    }, path)
+    print (":new candidate added")
+    os.remove(path)
+    return flask.redirect(flask.url_for('homepage'))
 # -----------------------------------------------------
 
 # ---- admin services ---------------------------------
@@ -72,10 +100,16 @@ def admin():
 def billboard():
     return flask.render_template('job_billboard.html')
 
-# @app.route('/applicants/<jobid>')
-# @flask_login.login_required
-# def protected():
-#     return flask.render_template('job_billboard.html', jobid=jobid)
+@app.route('/applicants/<jobid>')
+@flask_login.login_required
+def applicants(jobid):
+    return flask.render_template('job_applicants.html', jobid=jobid)
+
+@app.route('/data/admin/getCandidates/<jobid>')
+@flask_login.login_required
+def getCandidates(jobid):
+    allCandidates = database.getAllCandidates(jobid)
+    return flask.jsonify(allCandidates) 
 
 @app.route('/logout')
 def logout():
