@@ -9,7 +9,8 @@ function spawnJobs (results) {
             console.log(i.toString() + " card")
             jobCardTemplate = document.getElementsByClassName('col m-3 p-3 jobcard')[0];
             newJobCard = jobCardTemplate.cloneNode(true);
-            // newJobCardTemplate.onclick = ""
+            href = "http://localhost:5000/applicants/" + results[i]['id'].toString();
+            newJobCard.setAttribute("onclick", "location.href='"+href+"'");            
             newJobCard.getElementsByClassName("jobtitle")[0].innerText = results[i]['role'];
             newJobCard.getElementsByClassName("joblocation")[0].innerText = results[i]['loc'].split(", ").join(" | ");
             newJobCard.getElementsByClassName("altdet")[0].children[0].innerText = results[i]['des'];
@@ -29,7 +30,8 @@ function spawnJobs (results) {
             console.log(i.toString() + " card")
             jobCardTemplate = document.getElementsByClassName('col m-3 p-3 jobcard')[0];
             newJobCard = jobCardTemplate.cloneNode(true);
-            // newJobCardTemplate.onclick = ""
+            href = "http://localhost:5000/applicants/" + results[i]['id'].toString();
+            newJobCard.setAttribute("onclick", "location.href='"+href+"'");           
             newJobCard.getElementsByClassName("jobtitle")[0].innerText = results[i]['role'];
             newJobCard.getElementsByClassName("joblocation")[0].innerText = results[i]['loc'].split(", ").join(" | ");
             newJobCard.getElementsByClassName("altdet")[0].children[0].innerText = results[i]['des'];

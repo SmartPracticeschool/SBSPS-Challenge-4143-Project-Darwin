@@ -93,7 +93,7 @@ def download_item (item_key, save_to, bucket_name="darwin-resume-vault"):
     print("Downloading {0} from {1}".format(item_key, bucket_name))
     try:
         res=cos.download_file(Bucket=bucket_name, Key=item_key, Filename=save_to)
-        print("Downloaded {0} to {1}".format(item_key, bucket_name))
+        print("Downloaded {0} to {1}".format(item_key, save_to))
         return True
     except ClientError as be:
         print("CLIENT ERROR: {0}\n".format(be))

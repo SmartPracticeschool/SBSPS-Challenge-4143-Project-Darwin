@@ -161,6 +161,10 @@
     color: #fbfdff;
 }
 
+.resumebtn:hover {
+    opacity: 0.8;
+}
+
 .footsection {
     /* position: fixed; */
     margin-top: 10%;

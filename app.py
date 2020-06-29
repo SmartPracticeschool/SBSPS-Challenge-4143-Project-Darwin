@@ -1,6 +1,8 @@
+import threading
 import database
 import json
 import os
+import time
 
 import flask
 import flask_login
@@ -53,6 +55,24 @@ def darwin(jobid):
 def getAllJobs():
     allJobs = database.getAllJobs()
     return flask.jsonify(allJobs)
+
+@app.route('/data/getResume/<id>', methods=['GET'])
+def getResume(id):
+    # if flask.request.method == 'POST':
+    #     os.remove(os.path.join(os.path.join(os.path.join(app.root_path, app.config['FILE_UPLOADS']), id+str('.pdf'))))
+    #     return 'File Removed'
+    database.resume_vault.download_item(id, os.path.join(os.path.join(app.root_path, app.config['FILE_UPLOADS']), id+str('.pdf')))
+    del_thread = threading.Thread(target=delay_delete, args=(5, os.path.join(os.path.join(os.path.join(app.root_path, app.config['FILE_UPLOADS']), id+str('.pdf')))))
+    del_thread.start()
+    return  flask.send_from_directory(directory=os.path.join(app.root_path, app.config['FILE_UPLOADS']), filename=id+str('.pdf'))
+
+def delay_delete (t, path):
+    print ("started")
+    time.sleep(t)
+    print ("trying to delete")
+    os.remove(path)
+    print ("done")
+    return
 
 @app.route('/data/newCandidate', methods=['POST'])
 def newCandidate():
