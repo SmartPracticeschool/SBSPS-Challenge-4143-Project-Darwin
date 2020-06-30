@@ -18,7 +18,7 @@ def generateData(num_data,toCSV=False):
       yoe.append(random.randrange(22, 40))
   d = pd.DataFrame(data={"overall_score":ovr_score,"Date_Of_Joining":doj,"Skill":skill,"Year_of_Experience":yoe})
   if toCSV:
-    d.to_csv("MockData.csv")
+    d.to_csv("MockData.csv",index=False)
   return d
 
 #print(generateData(50).head())
